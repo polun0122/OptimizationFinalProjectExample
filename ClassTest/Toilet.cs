@@ -16,7 +16,7 @@ namespace Final_Project
         int wallAmount; /* 牆壁排數 */
         int rowAmount; /* 小便斗排數 */
         int toiletAmountPerRow; /* 每排小便斗個數 */
-        
+
         int totalAmount; /* 小便斗總數 */
         double toiletInterval; /* 小便斗間距 */
         double rowInterval; /* 排間距 */
@@ -187,14 +187,14 @@ namespace Final_Project
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("\n@ Toilet Reserved Status\n______________\n\n");
-            for (int i =0;i<rowAmount;i++)
+            for (int i = 0; i < rowAmount; i++)
             {
-                for (int j=0;j<toiletAmountPerRow;j++)
+                for (int j = 0; j < toiletAmountPerRow; j++)
                 {
                     sb.Append("-");
-                    if (IsToiletReserved(i,j))
+                    if (IsToiletReserved(i, j))
                         sb.Append("*");
-                    else 
+                    else
                         sb.Append("o");
                 }
                 sb.Append("-\n");
