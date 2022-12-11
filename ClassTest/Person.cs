@@ -46,7 +46,7 @@ namespace Final_Project
         /// 移動至小便斗時間
         /// </summary>
         public double WalkingTime() { return walkingTime; }
-        
+
         double walkingTime;
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Final_Project
         {
             double toiletInterval = toilet.GetToiletInterval();
             double rowInterval = toilet.GetRowInterval();
-            double totalCost = weight_alpha * GetTimeCost() + (1- weight_alpha) * GetPrivateCost(toiletInterval, rowInterval);
+            double totalCost = weight_alpha * GetTimeCost() + (1 - weight_alpha) * GetPrivateCost(toiletInterval, rowInterval);
             return totalCost;
         }
 
@@ -207,9 +207,9 @@ namespace Final_Project
             LinkedList<int> consecutiveToilet = new LinkedList<int>();
             int rowAmount = toilet.GetRowAmount();
             int toiletAmountPerRow = toilet.GetToiletAmountPerRow();
-            for (int i =0; i< rowAmount; i++)
+            for (int i = 0; i < rowAmount; i++)
             {
-                for (int j =0; j< toiletAmountPerRow; j++)
+                for (int j = 0; j < toiletAmountPerRow; j++)
                 {
                     if (!toilet.IsToiletReserved(i, j))
                     {

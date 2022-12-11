@@ -48,7 +48,7 @@ namespace Final_Project
             finishPeeing = startPeeing + peeingTime;
         }
 
-        public void NeighborLeave(double nowTime, string direction) 
+        public void NeighborLeave(double nowTime, string direction)
         {
             if (direction == "left")
             {

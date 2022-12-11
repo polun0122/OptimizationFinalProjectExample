@@ -1,79 +1,10 @@
-﻿using Final_Project;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Final_Project;
 
 namespace Final_Project
 {
-    public class FitnessHelper
-    {
-        // assumes chromosome and solution are bitstrings
-        private string solution;
-        public double Fitness(string chromosome)
-        {
-            int editDistance = Compute(chromosome, solution);
-            double score = 1.0 / (double)(editDistance + 1);
-
-            return score;
-        }
-
-        public FitnessHelper(string targetSolution)
-        {
-            solution = targetSolution;
-        }
-
-        // https://en.wikipedia.org/wiki/Levenshtein_distance
-        // https://www.dotnetperls.com/levenshtein
-        // dynamic programming
-        private static int Compute(string s, string t)
-        {
-            int n = s.Length;
-            int m = t.Length;
-            var d = new int[n + 1, m + 1];
-
-            // Step 1
-            if (n == 0)
-            {
-                return m;
-            }
-
-            if (m == 0)
-            {
-                return n;
-            }
-
-            // Step 2
-            for (int i = 0; i <= n; ++i)
-            {
-                d[i, 0] = i;
-            }
-            for (int j = 0; j <= m; ++j)
-            {
-                d[j, 0] = j;
-            }
-
-            // Step 3
-            for (int i = 1; i <= n; i++)
-            {
-                //Step 4
-                for (int j = 1; j <= m; j++)
-                {
-                    // Step 5
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
-
-                    // Step 6
-                    d[i, j] = Math.Min(
-                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-                        d[i - 1, j - 1] + cost
-                    );
-                }
-            }
-            // Step 7
-            return d[n, m];
-        }
-    }
-
-
     public class GeneticAlgorithm
     {
         private Random random = new Random();
@@ -81,7 +12,8 @@ namespace Final_Project
         public string Generate(int length)
         {
             string ret = "";
-            for (int i = 0; i < length; ++i)
+            int check_zero = 0;
+            for (int i = 0; i < length - 1; ++i)
             {
                 if (random.Next(0, 2) == 1)
                 {
@@ -90,8 +22,11 @@ namespace Final_Project
                 else
                 {
                     ret += "0";
+                    check_zero++;
                 }
             }
+            ret += "1";
+
             return ret;
         }
 
@@ -177,7 +112,7 @@ namespace Final_Project
 
         public string Run(FitnessFunction fitness, int length, double crossoverProbability, double mutationProbability, int iterations = 100)
         {
-            int populationSize = 10;
+            int populationSize = 500;
             // run population is population being generated.
             // test population is the population from which samples are taken.
             List<string> testPopulation = new List<string>(), runPopulation = new List<string>();
@@ -204,13 +139,20 @@ namespace Final_Project
                 fitnesses = new double[testPopulation.Count];
                 for (int i = 0; i < fitnesses.Length; ++i)
                 {
-                    //Console.WriteLine(testPopulation[i]);
+                    Console.WriteLine(">> ***" + testPopulation[i].ToString());
                     //Console.WriteLine(testPopulation[i].Substring(0, 8));
                     //Console.WriteLine(testPopulation[i].Substring(testPopulation[i].Length - 8, 8));
                     int bitNum = length / 2;
                     int toiletWallAmouunt = Convert.ToInt32(testPopulation[i].Substring(0, bitNum), 2);
                     int toiletAmouuntPerRow = Convert.ToInt32(testPopulation[i].Substring(bitNum, bitNum), 2);
+
+                    Console.WriteLine(">> * *" + toiletWallAmouunt.ToString() + ", " + toiletAmouuntPerRow.ToString());
+
                     fitnesses[i] = fitness.Evaluate(toiletWallAmouunt, toiletAmouuntPerRow);
+
+                    Console.WriteLine(">> ANS: " + toiletWallAmouunt.ToString() + ", " + toiletAmouuntPerRow.ToString());
+                    Console.WriteLine(">> VAL: " + fitnesses[i].ToString() + "\r\n");
+
                     sum += fitnesses[i];
                 }
 
@@ -240,7 +182,10 @@ namespace Final_Project
                     runPopulation.Add(two);
                 }
 
-                testPopulation = runPopulation;
+                if (runPopulation[0] != "")
+                {
+                    testPopulation = runPopulation;
+                }
             }
 
             // find best-fitting string.

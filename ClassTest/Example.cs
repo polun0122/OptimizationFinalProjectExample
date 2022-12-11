@@ -1,6 +1,6 @@
 ﻿using Final_Project;
 
-FitnessFunction fitness = new FitnessFunction(10, 5, Person.Strategy.MaximizeDistanceBehavior); //輸入：隊伍人數、每個人進廁所間隔時間、小便斗選擇行為
+FitnessFunction fitness = new FitnessFunction(10, 10, Person.Strategy.MaximizeDistanceBehavior); //輸入：隊伍人數、每個人進廁所間隔時間、小便斗選擇行為
 
 /* OPTIONAL
 fitness.SetWeight(0.9, 0.6);  // 改變權重(公式請參考word)，輸入：權重a,b
@@ -14,7 +14,7 @@ GeneticAlgorithm ga = new GeneticAlgorithm();
 
 int bitLength = 8;
 
-string ans = ga.Run(fitness, bitLength, 0.1, 0.1, 1);
+string ans = ga.Run(fitness, bitLength, 0.1, 0.1);
 
 int bitNum = bitLength / 2;
 int toiletWallAmouunt = Convert.ToInt32(ans.Substring(0, bitNum), 2);

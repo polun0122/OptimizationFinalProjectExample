@@ -13,7 +13,7 @@ namespace Final_Project
         double weight_beta = 0.7;
 
         double roomLength = 10; /* 廁所總長，單位：公尺 */
-        double roomWidth = 10; /* 廁所總寬，單位：公尺 */
+        double roomWidth = 5; /* 廁所總寬，單位：公尺 */
         double toiletLength = 0.3; /* 小便斗長，單位：公尺 */
         double toiletWidth = 0.33; /* 小便斗寬，單位：公尺 */
 
@@ -189,7 +189,7 @@ namespace Final_Project
             double costAverage = allPeopleCost / peopleAmount;
 
             Console.WriteLine("平均成本 " + (costAverage / 40).ToString());
-            return costAverage / 40;
+            return -costAverage / 40;
         }
     }
 }
