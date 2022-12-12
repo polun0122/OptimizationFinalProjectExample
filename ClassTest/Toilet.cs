@@ -26,14 +26,14 @@ namespace Final_Project
 
         /// <summary>
         /// </summary>
-        /// <param name="wallAmount">牆壁排數，需大於2</param>
+        /// <param name="wallAmount">牆壁排數，需不小於0</param>
         /// <param name="toiletAmountPerRow">每排小便斗個數，需大於0</param>
         /// <exception cref="Exception"></exception>
         public Toilet(int wallAmount, int toiletAmountPerRow, double roomLength, double roomWidth, double toiletLength, double toiletWidth)
         {
             if (wallAmount < 0)
                 throw new Exception("Violate Constraint: 牆面數量不得小於0");
-            if (toiletAmountPerRow < 0)
+            if (toiletAmountPerRow <= 0)
                 throw new Exception("Violate Constraint: 每排小便斗數量不得小於0");
             this.wallAmount = wallAmount + 2;
             this.toiletAmountPerRow = toiletAmountPerRow;

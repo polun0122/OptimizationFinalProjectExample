@@ -12,8 +12,7 @@ namespace Final_Project
         public string Generate(int length)
         {
             string ret = "";
-            int check_zero = 0;
-            for (int i = 0; i < length - 1; ++i)
+            for (int i = 0; i < length; ++i)
             {
                 if (random.Next(0, 2) == 1)
                 {
@@ -22,11 +21,8 @@ namespace Final_Project
                 else
                 {
                     ret += "0";
-                    check_zero++;
                 }
             }
-            ret += "1";
-
             return ret;
         }
 
@@ -139,19 +135,19 @@ namespace Final_Project
                 fitnesses = new double[testPopulation.Count];
                 for (int i = 0; i < fitnesses.Length; ++i)
                 {
-                    Console.WriteLine(">> ***" + testPopulation[i].ToString());
+                    //Console.WriteLine(">> ***" + testPopulation[i].ToString());
                     //Console.WriteLine(testPopulation[i].Substring(0, 8));
                     //Console.WriteLine(testPopulation[i].Substring(testPopulation[i].Length - 8, 8));
                     int bitNum = length / 2;
-                    int toiletWallAmouunt = Convert.ToInt32(testPopulation[i].Substring(0, bitNum), 2);
+                    int toiletWallAmount = Convert.ToInt32(testPopulation[i].Substring(0, bitNum), 2);
                     int toiletAmouuntPerRow = Convert.ToInt32(testPopulation[i].Substring(bitNum, bitNum), 2);
 
-                    Console.WriteLine(">> * *" + toiletWallAmouunt.ToString() + ", " + toiletAmouuntPerRow.ToString());
+                    //Console.WriteLine(">> * *" + toiletWallAmouunt.ToString() + ", " + toiletAmouuntPerRow.ToString());
 
-                    fitnesses[i] = fitness.Evaluate(toiletWallAmouunt, toiletAmouuntPerRow);
+                    fitnesses[i] = fitness.Evaluate(toiletWallAmount, toiletAmouuntPerRow);
 
-                    Console.WriteLine(">> ANS: " + toiletWallAmouunt.ToString() + ", " + toiletAmouuntPerRow.ToString());
-                    Console.WriteLine(">> VAL: " + fitnesses[i].ToString() + "\r\n");
+                    Console.WriteLine(">> VARIABLE: " + toiletWallAmount.ToString() + ", " + toiletAmouuntPerRow.ToString());
+                    Console.WriteLine(">> FITNESS VAL: " + (fitnesses[i]*-1).ToString() + "\r\n");
 
                     sum += fitnesses[i];
                 }

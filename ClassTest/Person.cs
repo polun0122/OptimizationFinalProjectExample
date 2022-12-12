@@ -39,6 +39,10 @@ namespace Final_Project
         public double WaitingTime()
         {
             waitingTime = TimeLine.StartWalking - TimeLine.Arrived;
+            if (waitingTime < 0)
+            {
+                return 0;
+            }
             return waitingTime;
         }
 
@@ -99,7 +103,8 @@ namespace Final_Project
 
             Queue availableToilets = new Queue();
             Queue occupiedToilets = new Queue();
-            Queue eligibleToilets;
+            Queue eligibleToilets = new Queue();
+            eligibleToilets.Enqueue(new int[] { -2, -2 });
 
             /* 若廁所已經全滿直接回傳 false */
             for (int i = 0; i < toilet.GetRowAmount(); i++)
@@ -134,11 +139,7 @@ namespace Final_Project
                 /* LazyBehavior */
                 eligibleToilets = LazyBehavior(availableToilets, occupiedToilets, toilet);
             }
-            else
-            {
-                eligibleToilets = new Queue();
-                eligibleToilets.Enqueue(new int[] { -2, -2 });
-            }
+            else { }
             chosenToiletIdx = (int[])eligibleToilets.Dequeue();
             walkingTime = toilet.DistanceToToilet(chosenToiletIdx[0], chosenToiletIdx[1]);
             return true;

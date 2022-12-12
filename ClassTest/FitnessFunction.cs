@@ -49,7 +49,7 @@ namespace Final_Project
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return double.MaxValue;
+                return -double.MaxValue;
             }
             //Console.WriteLine(toilet.ReservedStatus());
 
@@ -58,22 +58,29 @@ namespace Final_Project
             {
                 sequence[i] = new Person(strategy, weight_alpha, weight_beta);
                 sequence[i].Id = i + 1;
+                sequence[i].TimeLine.Arrived = peopleInterval * i;
             }
             Queue<Person> waitingList = new Queue<Person>();
             LinkedList<Person> walkingList = new LinkedList<Person>();
             LinkedList<Person> peeingList = new LinkedList<Person>();
-            for (int i = 0; i < peopleAmount; i++)
-            {
-                sequence[i].TimeLine.Arrived = 0; /* 假設所有人同時抵達排隊隊伍 */
-                waitingList.Enqueue(sequence[i]);
-            }
+
+            int nextWaitingIdx = 0;
+            int finishCount = 0;
 
             double time = 0;
-            waitingList.First().TimeLine.StartWalking = 0;
-            bool begining = true;
-
-            while (begining || peeingList.Count > 0)
+            while (finishCount < peopleAmount)
             {
+                /* 檢查有沒有人要加到排隊隊伍 */
+                if (nextWaitingIdx < peopleAmount)
+                {
+                    if (sequence[nextWaitingIdx].TimeLine.Arrived <= time)
+                    {
+                        waitingList.Enqueue(sequence[nextWaitingIdx]);
+                        nextWaitingIdx++;
+                    }
+                }
+
+
                 /* 檢查有沒有人可以開始走了 */
                 if (waitingList.Count > 0)
                 {
@@ -112,7 +119,6 @@ namespace Final_Project
                         peeingList.AddLast(person);
                         walkingList.Remove(person);
                         i--;
-                        begining = false;
 
                         /* 檢查相鄰有沒有人 */
                         //左
@@ -148,6 +154,7 @@ namespace Final_Project
                         int[] toiletIdx = person.ChosenToiletIdx();
                         toilet.ReleaseToilet(toiletIdx[0], toiletIdx[1]);
                         peeingList.Remove(person);
+                        finishCount++;
 
                         //Console.Write(String.Format("P{0} Released, Time: {1:0.00}", person.Id, time));
                         //Console.Write(toilet.UsingStatus());
@@ -177,7 +184,7 @@ namespace Final_Project
                         }
                     }
                 }
-                time += 0.001;
+                time += 0.01;
             }
 
             /* 計算目標函數 */
@@ -188,8 +195,8 @@ namespace Final_Project
             }
             double costAverage = allPeopleCost / peopleAmount;
 
-            Console.WriteLine("平均成本 " + (costAverage / 40).ToString());
-            return -costAverage / 40;
+            //Console.WriteLine("平均成本 " + (costAverage).ToString());
+            return -costAverage;
         }
     }
 }
